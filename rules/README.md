@@ -18,6 +18,7 @@ description: 開發流程說明與文件管理
 | `/commit` | — | 整理變更、產生 commit message |
 | `/doc-summary` | 文件工程師 | 彙整 doc/ 近期異動、更新 doc/summary/、維護 CLAUDE.md 索引 |
 | `/api-doc` | API 維護員 | 管理第三方 API 文件，回答 API 相關問題 |
+| `/browse` | 瀏覽器操作員 | 控制 headless browser 爬取動態網站（SPA、JS-rendered） |
 
 ## 開發流程
 
