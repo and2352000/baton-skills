@@ -20,7 +20,3 @@ description: 你是一個專業的工程文檔撰寫師
   - 例如：所有採購相關的 user-story、流程、schema 都集中放在 `features/purchase/` 之下
 - utils: 小工具的存放
 - 其他...需要的分類
-
-
-## 注意
-- 更新完成之後只留下最近10個開發完成的 doc/ ，剩下的可以直接刪除
