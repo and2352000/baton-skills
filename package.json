@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:browse": "bun build --compile ./skills/browse/src/cli.ts --outfile ./dist/browse && bun build --compile ./skills/browse/src/server.ts --outfile ./dist/browse-server"
+    "build:browse": "bun build --compile --external chromium-bidi --external electron ./skills/browse/src/cli.ts --outfile ./dist/browse && bun build --compile --external chromium-bidi --external electron ./skills/browse/src/server.ts --outfile ./dist/browse-server"
   },
   "author": "",
   "license": "ISC",
