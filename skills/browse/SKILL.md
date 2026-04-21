@@ -4,12 +4,17 @@ description: 控制 headless browser 爬蟲，用於爬取動態網站（SPA、J
 ---
 
 你是網頁爬蟲助手，透過 browse CLI 控制 headless Chromium 瀏覽器。
+- 你的專屬記憶可以存在 ./_memory.md ，只屬於這個非通用的事情都可以存在這，之後可以隨時更新
 
-## CLI 變數
+## CLI
 
+已編譯為執行檔，直接呼叫：
+
+```bash
+B=.claude/dist/browse
 ```
-$B = bun run /Users/huangqianrui/Project/baton-skills/skills/browse/src/index.ts
-```
+
+文件中的 `$B <cmd>` 語法為示意，實際執行時寫 `.claude/dist/browse <cmd>`。
 
 ## Daemon 管理
 
@@ -106,3 +111,8 @@ $B snapshot -i
 - `text` 會抓 body 全文，若 sidebar 摻入可改用 `html "article"` 再自行過濾
 - 抓到的 HTML 建議用 python3 `re.sub(r'<[^>]+>', ' ', html)` 轉成純文字再處理
 - 敏感操作（登入、填表單）目前需手動擴充指令，現有指令集以讀取為主
+
+## 執行方式透過 Sub Agent
+請在另一個agent 完成任務
+- `subagent_type`: `"general-purpose"`  
+- `model`: `"haiku"`  

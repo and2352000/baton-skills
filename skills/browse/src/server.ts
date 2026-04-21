@@ -125,6 +125,13 @@ console.log(`Browse daemon started (PID ${process.pid}) on port ${PORT}`);
 Bun.serve({
   port: PORT,
   async fetch(req) {
+    const url = new URL(req.url);
+
+    // Health check endpoint
+    if (url.pathname === "/health" && req.method === "GET") {
+      return Response.json({ ok: true, status: "ok", timestamp: Date.now() });
+    }
+
     if (req.method !== "POST") {
       return new Response("POST only", { status: 405 });
     }

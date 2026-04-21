@@ -1,2 +1,5 @@
 _memory.md
+dist
 node_modules
+worktrees/
+.DS_Store
