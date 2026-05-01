@@ -20,33 +20,55 @@ description: 開發流程說明與文件管理
 | `/api-doc` | API 維護員 | 管理第三方 API 文件，回答 API 相關問題 |
 | `/browse` | 瀏覽器操作員 | 控制 headless browser 爬取動態網站（SPA、JS-rendered） |
 
+---
+
 ## 開發流程
 
-1. **需求** — `/new-feature` 建立 user-story，與使用者討論直到 `status: approved` 後才繼續
-2. **tech-spec** — `/tech-spec` 建立技術規格並存到 `doc/`，使用者 approved 後才繼續
-3. **開發** — `/coder` 依規格實作；若有 DB 異動呼叫 `/dba` 處理 Entity/Migration
-4. **測試** — 開發完成後呼叫 `/qa` 跑 integration test，確認通過；測試有問題時通知 `/coder` 修正
-5. **收尾** — `/commit` 建立 commit；若開發過程有設計變更，同步更新 `doc/`
-6. **文件彙整** — 詢問使用者是否需要呼叫 `/doc-summary` 更新文件摘要
+> 每個步驟都必須等前一步完成且通過後才可繼續。
+
+1. **需求** — `/new-feature` 建立 user-story，與使用者討論直到 `status: approved`
+2. **規格** — `/tech-spec` 建立技術規格並存到 `doc/`，使用者 approved 後才繼續
+3. **開發（逐 task）** — 依序執行每個 tech-spec task：
+   1. `/coder` 實作（若有 DB 異動同步呼叫 `/dba`）
+   2. `/qa` 跑 integration test，確認通過（失敗則回 `/coder` 修正）
+   3. `/commit` 建立 commit
+   4. 重複直到所有 task 完成
+4. **文件彙整** — 詢問使用者是否呼叫 `/doc-summary` 更新摘要
+
+---
 
 ## 協作原則
 
 - 遇到不屬於自己職責的工作，**呼叫對應 skill** 而非自己處理
-- 各 skill 之間可以互相呼叫，形成協作鏈（例如 coder 完成後主動觸發 qa）
+- 各 skill 之間可以互相呼叫，形成協作鏈
 - 有疑問或缺少資訊時，先問使用者，不要自行假設後硬幹
+
+---
 
 ## Claude 行為約束
 
-- **所有文件**（user-story、tech-spec、api-doc 等）一律建立在 `doc/` 資料夾下，不得放在其他位置
-- 所有程式碼實作一律呼叫 `/coder`，不得自行撰寫程式碼；將需求與 tech-spec 完整交給 coder
-- `/qa` 回報測試失敗時，一律呼叫 `/coder` 修正，不得自行修改程式碼
-- user-story `status: approved` 後才可建立 tech-spec
-- 建立 `tech-spec.md`（透過 `/tech-spec`）且 `status: approved` 後才可進行開發
-- 未經使用者確認，不得擅自將 status 改為 approved
+### 文件
+- 所有文件（user-story、tech-spec、api-doc 等）一律建立在 `doc/` 資料夾下
 - 開發完成或中途有變更時，主動提示使用者確認 `doc/` 是否需要同步更新
-- 每次功能開發完成（commit 後），主動詢問使用者是否需要呼叫 `/doc-summary`
 
-## 修改 skills 的原則
-- skill 的修改要符合通用性，也就是盡量讓不同專案可以使用
-- 專案的特殊風格或其必須的資源，可以請 skill 更新在該資料夾的 ./_memeory.md 作為 skill 行動的參考
-  - 務必讓 skill 本身可以更新 ./_memory.md 寫 skill 在裡面
+### 流程門檻（不得跨越）
+- user-story `status: approved` 後才可建立 tech-spec
+- tech-spec `status: approved` 後才可開始開發
+- **每個 task 必須依序執行，前一個 task 的 commit 完成後才可進行下一個**
+- **每次 commit 前必須先呼叫 `/qa` 確認測試通過**，測試未通過不得執行 `/commit`
+- 未經使用者確認，不得擅自將任何 status 改為 approved
+
+### 程式碼
+- 所有程式碼實作一律呼叫 `/coder`，不得自行撰寫
+- `/qa` 回報測試失敗時，一律呼叫 `/coder` 修正，不得自行修改
+
+### 收尾
+- 每次功能開發完成（最後一個 commit 後），主動詢問使用者是否需要呼叫 `/doc-summary`
+
+---
+
+## 修改 Skills 的原則
+
+- skill 的修改要符合通用性，讓不同專案都可以使用
+- 專案的特殊風格或必要資源，可請 skill 更新該資料夾的 `./_memory.md` 作為行動參考
+- 務必讓 skill 本身能夠自行更新 `./_memory.md`
